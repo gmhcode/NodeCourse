@@ -1,4 +1,16 @@
-const fs = require('fs')
+const validator = require('validator')
+const chalk = require('chalk')
+const getNotes = require('./notes.js')
+const print = console.log
+const notes = getNotes()
 
-fs.writeFileSync('notes.txt', 'My name is Greg')
-fs.appendFileSync('notes.txt', '\n I appended to this file')
+print(notes)
+
+print(validator.isEmail('greghughes988@gmail.com'))
+print(chalk.green('Error'))
+// const add = require('./utils.js')
+
+
+// const sum = add(4,-2)
+
+// print(sum)
