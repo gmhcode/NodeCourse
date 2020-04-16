@@ -1,0 +1,28 @@
+{
+	"": {
+		"prefix": "yargscommand",
+		"body": [
+			"yargs.command({",
+			"  command: 'add',",
+			"  describe: 'Add a new note',",
+			"  builder: {",
+			"    title: {",
+			"      describe: 'Note title',",
+			"      demandOption: true,",
+			"      type: 'string'",
+			"    },",
+			"    body: {",
+			"      describe: 'Body description',",
+			"      demandOption: true,",
+			"      type: 'string'",
+			"    }",
+			"  },",
+			"  handler: function(argv) {",
+			"    print('Title: ' + argv.title + '\\nBody: ' + argv.body)",
+			"    // print('adding a new note',argv)",
+			"  }",
+			"})"
+		],
+		"description": ""
+	}
+}
