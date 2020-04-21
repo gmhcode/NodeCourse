@@ -3,26 +3,47 @@ const morgan = require('morgan')
 const app = express()
 const mysql = require('mysql')
 
-const bodyParser =
+const bodyParser = require('body-parser')
 
-  app.use(express.static('./public'))
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(express.static('./public'))
 
 app.use(morgan('short'))
 
 app.post('/user_create', (req, res) => {
   console.log("Trying To create a new user")
   console.log("How do we get the form data")
-  res.end()
+
+  const firstName = req.body.create_first_name
+  const lastName = req.body.create_last_name
+  const queryString = "INSERT INTO users (first_name, last_name) VALUES (?, ?)"
+  getConnection().query(queryString, [firstName, lastName], (err, results, fields) => {
+    if (err) {
+      console.log("Failed to insert new user: " + err)
+      res.sendStatus(500)
+      return
+    }
+
+    console.log("Inserted a new user with id: ", results.insertId)
+    res.end
+  })
+
 })
 
-app.get('/user/:id', (req, res) => {
-  console.log('Fething user with id: ' + req.params.id)
 
-  const connection = mysql.createConnection({
+function getConnection() {
+  return mysql.createConnection({
     host: 'localhost',
     user: 'root',
     database: 'lbta_mysql_fixed'
   })
+}
+
+app.get('/user/:id', (req, res) => {
+  console.log('Fething user with id: ' + req.params.id)
+
+  const connection = getConnection()
 
   const userID = req.params.id
   const queryString = "SELECT * FROM users WHERE id = ?"
@@ -50,9 +71,20 @@ app.get("/", (req, res) => {
 
 // http://192.168.1.8/
 app.get("/users", (req, res) => {
-  var user1 = { firstName: "Greg", lastName: "Hughes" }
-  const user2 = { firstName: "Kevin", lastName: "Durant" }
-  res.json([user1, user2])
+  const connection = getConnection()
+  const queryString = "SELECT * FROM users"
+  connection.query(queryString, (err, rows, fields) => {
+
+    if (err) {
+      console.log("Failed to query for users: " + err)
+      res.sendStatus(500)
+      return
+    }
+    console.log("I think we fetched users successfully")
+
+
+    res.json(rows)
+  })
 
 })
 
@@ -60,7 +92,7 @@ app.get("/users", (req, res) => {
 //   console.log("Server is up and listening on 3003....")
 // })
 
-app.listen(3003, '0.0.0.0', () => {
+app.listen(3003, () => {
   console.log("Server is up and listening on 3003....")
 })
 
