@@ -3,6 +3,19 @@ const express = require('express')
 const mysql = require('mysql')
 
 const router = express.Router()
+
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
+    database: 'lbta_mysql_fixed'
+})
+
+function getConnection() {
+    return pool
+}
+
+
 router.get('/messages', (req, res) => {
     console.log("Show some messages or whatever...")
     res.end()
@@ -26,13 +39,7 @@ router.get("/users", (req, res) => {
 
 })
 
-function getConnection() {
-    return mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'lbta_mysql_fixed'
-    })
-}
+
 
 router.post('/user_create', (req, res) => {
     console.log("Trying To create a new user")
