@@ -1,8 +1,14 @@
 //Will contain all of my user related routes
 const express = require('express')
 const mysql = require('mysql')
+const chalk = require('chalk')
+const bodyParser = require('body-parser')
 
 const router = express.Router()
+router.use(bodyParser.json())
+router.use(require('body-parser').json({ type: '*/*' }));
+
+// router.use(bodyParser.urlencoded({ extended: false }))
 
 const pool = mysql.createPool({
     connectionLimit: 10,
@@ -46,8 +52,10 @@ router.post('/user_create', (req, res) => {
     console.log("Trying To create a new user")
     console.log("How do we get the form data")
 
-    const firstName = req.body.create_first_name
-    const lastName = req.body.create_last_name
+    const firstName = req.body.firstName
+    const lastName = req.body.lastName
+
+    console.log(req.body)
     const queryString = "INSERT INTO users (first_name, last_name) VALUES (?, ?)"
 
     getConnection().query(queryString, [firstName, lastName], (err, results, fields) => {

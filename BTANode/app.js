@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 
 
 
-
+// windows 192.168.1.126
 
 // http://192.168.1.8/
 
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 //   console.log("Server is up and listening on 3003....")
 // })
 
-app.listen(3003, () => {
+app.listen(3003, '0.0.0.0', () => {
   console.log("Server is up and listening on 3003....")
 })
 
