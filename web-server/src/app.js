@@ -50,6 +50,9 @@ app.get('/weather', (req, res) => {
   })
 })
 
+app.get('*', (req, res) => {
+  res.send('My 404 page')
+})
 
 app.listen(3000, () => {
   console.log('server is up on prt 3000.')

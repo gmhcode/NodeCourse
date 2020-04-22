@@ -6,7 +6,6 @@ const bodyParser = require('body-parser')
 
 const router = express.Router()
 router.use(bodyParser.json())
-router.use(require('body-parser').json({ type: '*/*' }));
 
 // router.use(bodyParser.urlencoded({ extended: false }))
 
@@ -64,9 +63,9 @@ router.post('/user_create', (req, res) => {
             res.sendStatus(500)
             return
         }
-
+        res.send("got it")
         console.log("Inserted a new user with id: ", results.insertId)
-        res.end
+        res.end()
     })
 
 })
