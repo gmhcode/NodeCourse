@@ -50,8 +50,19 @@ app.get('/weather', (req, res) => {
   })
 })
 
+app.get('/help/*', (req, re) => {
+
+  res.send('Help article not found')
+
+})
+
 app.get('*', (req, res) => {
-  res.send('My 404 page')
+  // res.send('M 404 Page')
+  res.render('404', {
+    title: '404',
+    name: 'Greg Hughes',
+    errorMessage: 'Page Not Found'
+  })
 })
 
 app.listen(3000, () => {
